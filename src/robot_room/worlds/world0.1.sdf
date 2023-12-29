@@ -162,7 +162,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -266,7 +266,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -361,7 +361,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -459,7 +459,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -557,7 +557,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -655,7 +655,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -753,7 +753,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -851,7 +851,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -949,7 +949,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -1047,7 +1047,7 @@
                 <soft_erp>0.2</soft_erp>
                 <kp>1e+13</kp>
                 <kd>1</kd>
-                <max_vel>0.0</max_vel>
+                <max_vel>0</max_vel>
                 <min_depth>0.001</min_depth>
               </ode>
               <bullet>
@@ -1070,10 +1070,10 @@
       <pose>4.3121 9.50766 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>10 11000000</sim_time>
-      <real_time>10 69435200</real_time>
-      <wall_time>1697610401 828565306</wall_time>
-      <iterations>10011</iterations>
+      <sim_time>65955 771000000</sim_time>
+      <real_time>66317 882709384</real_time>
+      <wall_time>1703654416 291563688</wall_time>
+      <iterations>65945760</iterations>
       <model name='ground_plane'>
         <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -1085,100 +1085,100 @@
         </link>
       </model>
       <model name='model2.1'>
-        <pose>-6.15618 8.91818 0 0 -0 0</pose>
+        <pose>-6.15618 8.91818 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-6.15618 8.91818 0.5 0 -0 0</pose>
+          <pose>-6.15618 8.91818 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>-0 0 0 -0 -0 -0</acceleration>
+          <wrench>-0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.10'>
-        <pose>-0.069303 10.0831 0 0 -0 0</pose>
+        <pose>-0.069303 10.0831 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_12'>
-          <pose>-0.069306 10.0831 0 0 -0 0</pose>
+          <pose>-0.069306 10.0831 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>-0 0 0 -0 -0 -0</acceleration>
+          <wrench>-0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.2'>
-        <pose>-9.29105 2.63658 0 0 -0 0</pose>
+        <pose>-9.46695 3.41271 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_1'>
-          <pose>-9.29105 2.63659 0 0 -0 0</pose>
+          <pose>-9.46695 3.41272 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>-0 -0 0 0 -0 0</acceleration>
+          <wrench>-0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.3'>
-        <pose>-3.30049 -9.94824 0 0 -0 0</pose>
+        <pose>-5.84106 -8.81975 0.499001 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_11'>
-          <pose>-3.30049 -9.94824 0 0 -0 0</pose>
+          <pose>-5.84106 -8.81975 0.499001 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 -0 0 0 -0 0</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.4'>
-        <pose>-8.72092 -4.88792 0 0 -0 0</pose>
+        <pose>-9.51983 -3.44716 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_4'>
-          <pose>-8.72092 -4.88792 0 0 -0 0</pose>
+          <pose>-9.51983 -3.44716 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.5'>
-        <pose>3.54549 -9.84256 0 0 -0 0</pose>
+        <pose>-0.230185 -9.62691 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_5'>
-          <pose>3.54549 -9.84256 0 0 -0 0</pose>
+          <pose>-0.230185 -9.6269 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.6'>
-        <pose>9.63794 -4.80031 0 0 -0 0</pose>
+        <pose>5.29112 -7.83427 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_6'>
-          <pose>9.63794 -4.80031 0 0 -0 0</pose>
+          <pose>5.29112 -7.83426 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 -0 0 0 -0 0</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.7'>
-        <pose>10.1207 1.72648 0 0 -0 0</pose>
+        <pose>9.61909 -3.33221 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_7'>
-          <pose>10.1207 1.72648 0 0 -0 0</pose>
+          <pose>9.61913 -3.33221 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 -0 0 0 -0 0</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.8'>
-        <pose>9.07668 7.50461 0 0 -0 0</pose>
+        <pose>9.42119 3.45593 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_8'>
-          <pose>9.07668 7.50461 0 0 -0 0</pose>
+          <pose>9.42119 3.45594 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 -0 0 0 -0 0</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='model2.9'>
-        <pose>4.3121 9.50766 0 0 -0 0</pose>
+        <pose>5.365 8.64937 0.499 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link_9'>
-          <pose>4.3121 9.50766 0 0 -0 0</pose>
+          <pose>5.365 8.64937 0.499 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1190,7 +1190,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>54.3414 1.00559 21.2357 0 0.353797 3.0402</pose>
+        <pose>-0.759795 2.81874 39.6161 0 1.5698 -3.13074</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>

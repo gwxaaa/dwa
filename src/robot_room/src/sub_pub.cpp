@@ -28,13 +28,14 @@ void modelStatesCallback(const gazebo_msgs::ModelStates::ConstPtr& msg)
         // 检查是否是目标模型
         if (model_name == target_model_name)
         {
-            // 保存目标模型的当前位置
-            current_position = model_poses[i];
-                  // 输出目标模型的信息
-            ROS_INFO("Model Name: %s", model_name.c_str());
-            ROS_INFO("Model Pose: x=%.2f, y=%.2f, z=%.2f", model_poses[i].position.x, model_poses[i].position.y, model_poses[i].position.z);
-            ROS_INFO("Model Twist: linear x=%.2f, y=%.2f, z=%.2f", model_twists[i].linear.x, model_twists[i].linear.y, model_twists[i].linear.z);
-            ROS_INFO("Model Twist: angular x=%.2f, y=%.2f, z=%.2f", model_twists[i].angular.x, model_twists[i].angular.y, model_twists[i].angular.z);
+            // // 保存目标模型的当前位置
+            // current_position = model_poses[i];
+            //       // 输出目标模型的信息
+            // ROS_INFO("Model Name: %s", model_name.c_str());
+            // ROS_INFO("Model Pose: x=%.2f, y=%.2f, z=%.2f", model_poses[i].position.x, model_poses[i].position.y, model_poses[i].position.z);
+            // ROS_INFO("Model Twist: linear x=%.2f, y=%.2f, z=%.2f", model_twists[i].linear.x, model_twists[i].linear.y, model_twists[i].linear.z);
+            // ROS_INFO("Model Twist: angular x=%.2f, y=%.2f, z=%.2f", model_twists[i].angular.x, model_twists[i].angular.y, model_twists[i].angular.z);
+
         }
     }
 }
@@ -44,7 +45,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "sub_pub");
     ros::NodeHandle nh("~");
 
-    nh.param<std::string>("target_model_name", target_model_name, "model2.1");
+    nh.param<std::string>("target_model_name", target_model_name, "wall3");
     nh.param<double>("new_x", new_x, 0.0);
     nh.param<double>("new_y", new_y, 0.0);
     double speed; 
@@ -76,10 +77,10 @@ int main(int argc, char** argv)
             // 休眠一段时间间隔
             ros::Duration(time_interval).sleep();
 
-            // 如果到达目标位置，退出循环
-            if (fabs(current_position.position.x - new_x) < 0.01 && fabs(current_position.position.y - new_y) < 0.01) {
-                break;
-            }
+            // // 如果到达目标位置，退出循环
+            // if (fabs(current_position.position.x - new_x) < 0.01 && fabs(current_position.position.y - new_y) < 0.01) {
+            //     break;
+            // }
         }
 
         ros::spinOnce();

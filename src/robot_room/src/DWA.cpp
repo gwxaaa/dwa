@@ -91,6 +91,93 @@ geometry_msgs::Pose DWAPlanner::PredictPose(const geometry_msgs::Pose& current_p
   return final_pose;
 }
 
+
+// //新的碰撞算法
+// bool IsPointInLine(const geometry_msgs::Point& point, const geometry_msgs::Point& line_start, const geometry_msgs::Point& line_end) {
+//     // 计算点到直线的距离
+//     double distance = fabs((line_end.y - line_start.y) * point.x - (line_end.x - line_start.x) * point.y +
+//                             line_end.x * line_start.y - line_end.y * line_start.x) /
+//                       sqrt(pow(line_end.y - line_start.y, 2) + pow(line_end.x - line_start.x, 2));
+//     // 假设阈值为一定距离
+//     const double threshold_distance = 0.5;
+
+//     // 如果点到直线的距离小于阈值，认为在直线上
+//     return (distance < threshold_distance);
+// }
+
+// bool IsPointInCircle(const geometry_msgs::Point& point, const geometry_msgs::Point& circle_center, double circle_radius) {
+//     // 计算点到圆心的距离
+//     double distance = std::hypot(point.x - circle_center.x, point.y - circle_center.y);
+
+//     // 如果点到圆心的距离小于圆的半径，认为在圆内
+//     return (distance < circle_radius);
+// }
+
+// double DWAPlanner::CalculateCollision(const geometry_msgs::Pose& final_pose) {
+//     double collision_penalty = 0.0;
+
+//     // 示例：遍历所有障碍物，判断最终位置是否与线段或圆相交或过于靠近
+//     for (const auto& obstacle : obstacles) {
+//         if (obstacle.type == "line") {
+//             // 判断最终位置是否在线段内
+//             bool is_inside_line = IsPointInLine(final_pose.position, obstacle.start_point, obstacle.end_point);
+//             if (is_inside_line) {
+//                 collision_penalty += 100.0; // 示例：在线段内增加碰撞惩罚
+//             }
+//         } else if (obstacle.type == "circle") {
+//             // 判断最终位置是否在圆内
+//             bool is_inside_circle = IsPointInCircle(final_pose.position, obstacle.center, obstacle.radius);
+//             if (is_inside_circle) {
+//                 collision_penalty += 100.0; // 示例：在圆内增加碰撞惩罚
+//             }
+//         }
+//     }
+
+//     return collision_penalty;
+// }
+// bool IsPointInLine(const geometry_msgs::Point& point, const geometry_msgs::Point& line_start, const geometry_msgs::Point& line_end) {
+//     // 计算点到直线的距离
+//     double distance = fabs((line_end.y - line_start.y) * point.x - (line_end.x - line_start.x) * point.y +
+//                             line_end.x * line_start.y - line_end.y * line_start.x) /
+//                       sqrt(pow(line_end.y - line_start.y, 2) + pow(line_end.x - line_start.x, 2));
+//     // 假设阈值为一定距离
+//     const double threshold_distance = 0.5;
+
+//     // 如果点到直线的距离小于阈值，认为在直线上
+//     return (distance < threshold_distance);
+// }
+
+// bool IsPointInCircle(const geometry_msgs::Point& point, const geometry_msgs::Point& circle_center, double circle_radius) {
+//     // 计算点到圆心的距离
+//     double distance = std::hypot(point.x - circle_center.x, point.y - circle_center.y);
+
+//     // 如果点到圆心的距离小于圆的半径，认为在圆内
+//     return (distance < circle_radius);
+// }
+
+// double DWAPlanner::CalculateCollision(const geometry_msgs::Pose& final_pose) {
+//     double collision_penalty = 0.0;
+
+//     // 示例：遍历所有障碍物，判断最终位置是否与线段或圆相交或过于靠近
+//     for (const auto& obstacle : obstacles) {
+//         if (obstacle.type == "line") {
+//             // 判断最终位置是否在线段内
+//             bool is_inside_line = IsPointInLine(final_pose.position, obstacle.start_point, obstacle.end_point);
+//             if (is_inside_line) {
+//                 collision_penalty += 100.0; // 示例：在线段内增加碰撞惩罚
+//             }
+//         } else if (obstacle.type == "circle") {
+//             // 判断最终位置是否在圆内
+//             bool is_inside_circle = IsPointInCircle(final_pose.position, obstacle.center, obstacle.radius);
+//             if (is_inside_circle) {
+//                 collision_penalty += 100.0; // 示例：在圆内增加碰撞惩罚
+//             }
+//         }
+//     }
+
+//     return collision_penalty;
+// }
+
 // double DWAPlanner::CalculateCollision(const geometry_msgs::Pose& final_pose)
 // {
 //   double collision_distance_threshold = 1.7;  // 设置碰撞距离阈值，

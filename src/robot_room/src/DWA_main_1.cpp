@@ -6,7 +6,8 @@
 #include "KinematicModel.h"
 #include "DWA.h"
 #include <vector>
-
+#include <geometry_msgs/PoseStamped.h>
+#include "nav_msgs/Path.h"
 // 定义全局变量来存储模型状态信息
 gazebo_msgs::ModelStates model_states;
 geometry_msgs::Pose robot_initial_pose;
@@ -15,6 +16,11 @@ geometry_msgs::Pose target_pose; // 目标位置
 std::vector<geometry_msgs::Pose> obstacle_poses;
 bool received_model_states = false;
 std::string specific_model_name; // 特定模型名称
+geometry_msgs::Pose new_pose;
+geometry_msgs::Twist new_twist;
+ros::Publisher pose_stamped_pub_;
+ros::Publisher path_pub_;
+std::vector<geometry_msgs::Pose> new_poses;
 // 回调函数，处理特定模型的信息，并将其他模型信息作为障碍物
 void specificModelStateCallback(const gazebo_msgs::ModelStates::ConstPtr &msg)
 {
@@ -57,6 +63,8 @@ int main(int argc, char **argv)
   ros::Subscriber modelStateSub = nh.subscribe("/gazebo/model_states", 1, specificModelStateCallback);
   // 创建发布器
   ros::Publisher modelStatePub = nh.advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state", 1);
+  pose_stamped_pub_ = nh.advertise<geometry_msgs::PoseStamped>("/pose_stamped_topic01", 10); // 新增的发布器
+  path_pub_ = nh.advertise<nav_msgs::Path>("/path_topic01", 100);
   geometry_msgs::Pose final_pose;
   geometry_msgs::Twist twist;
   double time, num, max_angular_speed, max_linear_speed;
@@ -103,20 +111,45 @@ int main(int argc, char **argv)
     modelState.model_name = specific_model_name;
     modelState.pose = newpose;
     modelStatePub.publish(modelState);
+    new_poses.push_back(newpose);
+    std::size_t size = new_poses.size();
+    geometry_msgs::PoseStamped pose_stamped_msg;
+    pose_stamped_msg.header.stamp = ros::Time::now(); // 使用当前时间作为时间戳
+    pose_stamped_msg.header.frame_id = "map";
+    pose_stamped_msg.pose.position.x = newpose.position.x;
+    pose_stamped_msg.pose.position.y = newpose.position.y;
+    pose_stamped_msg.pose.orientation = newpose.orientation;
+    // 发布 geometry_msgs::PoseStamped 类型的消息
+    pose_stamped_pub_.publish(pose_stamped_msg);
+    // 发布path信息
+    nav_msgs::Path path_msg;
+    path_msg.header.stamp = ros::Time::now();
+    path_msg.header.frame_id = "map"; // 设置路径消息的坐标系
+    // 需要设置较多的信息
+    for (int i = 0; i < new_poses.size(); ++i)
+    {
+      // 添加路径点到路径消息中
+      geometry_msgs::PoseStamped pose;
+      pose.header.stamp = ros::Time::now();
+      pose.header.frame_id = "map"; // 设置路径点的坐标系
+      pose.pose = new_poses[i];
+      path_msg.poses.push_back(pose); // 将路径点添加到路径消息中
+    }
+    path_pub_.publish(path_msg); // 发布路径消息
     // 输出最佳速度、分数、final_pose和迭代序号
     // std::cout << " - Best Twist: linear.x = " << twist.linear.x << ", angular.z = " << twist.angular.z
     //           << std::endl;
     //  std::cout << " - Best Score: " << best_score << std::endl;
     // std::cout << " - Best Final Pose: x = " << final_pose.position.x << ", y = " << final_pose.position.y <<
     // std::endl;
-    ROS_INFO(" - Best Twist: linear.x = %f, angular.z = %f", twist.linear.x, twist.angular.z);
-    ROS_INFO(" - Best Score: %f", best_score);
-    ROS_INFO(" - Best Final Pose: x = %f, y = %f", final_pose.position.x, final_pose.position.y);
+    // ROS_INFO(" - Best Twist: linear.x = %f, angular.z = %f", twist.linear.x, twist.angular.z);
+    // ROS_INFO(" - Best Score: %f", best_score);
+    // ROS_INFO(" - Best Final Pose: x = %f, y = %f", final_pose.position.x, final_pose.position.y);
     current_pose = newpose; // 更新位姿
     // 检查是否到达目标点
     double distance_to_target = sqrt(pow(target_pose.position.x - current_pose.position.x, 2) +
                                      pow(target_pose.position.y - current_pose.position.y, 2));
-    if (distance_to_target <0.1)
+    if (distance_to_target < 0.1)
     {
       ROS_INFO("Reached the goal");
     }

@@ -2,7 +2,8 @@
 #pragma once
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Twist.h"
-
+#include <geometry_msgs/PoseStamped.h>
+#include "nav_msgs/Path.h"
 
 class DWAPlanner {
 private:
@@ -61,5 +62,8 @@ private:
     //寻找最大的距离是为了将距离设置
     //距离包含位置距离和角度距离，角度距离就可以粗略的设置处以2M——PI;但位置距离就不好设置，人为设置误差较大
 
+    //增加碰撞的细节
+        // 新增函数用于避障操作
+    bool AvoidObstacles(const geometry_msgs::Pose& pose) ;
 
 };
