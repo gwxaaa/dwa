@@ -1,56 +1,70 @@
 
 
-
-// #ifndef MODELSIZEGET_H
-// #define MODELSIZEGET_H
-
-// #include <gazebo/msgs/msgs.hh>
-// #include <gazebo/transport/transport.hh>
-// #include <iostream>
-// #include <string>
-// #include <mutex>
-// #include <condition_variable>
-// #include <gazebo_msgs/ModelStates.h>
-// // 定义一个表示模型的尺寸信息的结构体
-// struct ModelSize
-// {
-//     double length, width, height;
-// };
-
-// class ModelSizeGet
-// {
-// public:
-//     ModelSizeGet();
-//     ModelSize getModelSize(const std::string &modelName);
-
-// private:
-//     gazebo::transport::NodePtr node{new gazebo::transport::Node()};
-//     std::mutex mutex;
-//     std::condition_variable cv;
-//     bool received = false;
-// };
-
-// #endif // MODELSIZEGETTER_H
-#ifndef MODELSIZEPLUGIN_HH
-#define MODELSIZEPLUGIN_HH
+#ifndef MODELSIZEPLUGIN_H
+#define MODELSIZEPLUGIN_H
 
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/physics.hh>
 #include "gazebo/physics/BoxShape.hh"
+#include "ignition/math.hh"
 
-namespace gazebo
-{
+namespace gazebo {
 
-    class ModelSizePlugin : public WorldPlugin
-    {
+    class ModelSizePlugin : public ModelPlugin {
     public:
-        void gazebo::physics::load( WorldPtr  _world ,sdf::ElementPtr _sdf) ;
+        void Load(const gazebo::physics::ModelPtr _model, sdf::ElementPtr _sdf) ;
+        // 获取模型宽度
+        double GetModelWidth() const ;
+        // 获取模型深度
+        double GetModelDepth() const ;
+        // 获取模型高度
+        double GetModelHeight() const ;
+        // 获取模型位置信息
+        ignition::math::Vector3d GetModelPosition() const ;
+        // 获取模型四元数
+        ignition::math::Quaterniond GetModelOrientation() const ;
+        // 获取模型Yaw信息
+        double GetModelYaw() const ;
 
-    // private:
-    //     gazebo::physics::WorldPtr  _world;
-
+    private:
+        gazebo::physics::ModelPtr _model;
+        double modelWidth;
+        double modelDepth;
+        double modelHeight;
+        ignition::math::Vector3d modelPosition;
+        ignition::math::Quaterniond modelOrientation;
+        double modelYaw;
     };
 
-} // namespace gazebo
+    GZ_REGISTER_MODEL_PLUGIN(ModelSizePlugin)
+}
 
-#endif // MODELSIZEPLUGIN_HH
+#endif // MODELSIZEPLUGIN_H
+
+
+
+
+// #ifndef MODELSIZEPLUGIN_HH
+// #define MODELSIZEPLUGIN_HH
+
+// #include <gazebo/gazebo.hh>
+// #include <gazebo/physics/physics.hh>
+// #include "gazebo/physics/BoxShape.hh"
+
+// namespace gazebo
+// {
+
+//     class ModelSizePlugin : public ModelPlugin
+//     {
+//     public:
+//         void Load(physics::ModelPtr  _model,sdf::ElementPtr _sdf) ;
+
+//     private:
+//         gazebo::physics::ModelPtr  _model;
+
+
+//     };
+
+// } // namespace gazebo
+
+// #endif // MODELSIZEPLUGIN_HH

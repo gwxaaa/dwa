@@ -3,7 +3,8 @@ project(robot_room)
 set(CMAKE_CXX_STANDARD 11)
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
-
+# set(gazebo_DIR /usr/bin/gazebo)
+# set(CMAKE_PREFIX_PATH  /opt/ros/noetic)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -14,11 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+gazebo_dev
 )
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -38,12 +37,6 @@ test.msg
 #   Service2.srv
 # )
 
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
@@ -67,6 +60,7 @@ include_directories(
 include
   ${catkin_INCLUDE_DIRS} 
   ${gazebo_INCLUDE_DIRS}
+  ${EIGEN_INCLUDE_DIRS}
  
 )
 #  add_executable(robot_room src/robot_sub.cpp)
@@ -77,16 +71,22 @@ include
 #  add_executable(sub_pub1 src/sub_pub1.cpp)
 
 
- #add_executable(range src/range.cpp)
-
+#  add_executable(model src/model.cpp)
+#  target_link_libraries(model ${catkin_LIBRARIES})
  #add_executable(differ_car src/differ_car.cpp)
- add_executable(DWA_main_1  src/DWA_main_1.cpp  src/DWA.cpp src/KinematicModel.cpp )
- target_link_libraries( DWA_main_1 ${catkin_LIBRARIES})
-install(TARGETS DWA_main_1  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
+ add_executable(modelmain  src/model.cpp   src/modelmain.cpp  )
+ target_link_libraries( modelmain ${catkin_LIBRARIES})
+ install(TARGETS modelmain   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
+#  add_executable(modelplugin  src/modelplugin.cpp  src/ModelSizePlugin.cpp  )
+#  target_link_libraries( modelplugin ${catkin_LIBRARIES})
+#  install(TARGETS modelplugin   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
+#  add_executable(DWA_main_1  src/DWA_main_1.cpp  src/DWA.cpp src/KinematicModel.cpp )
+#  target_link_libraries( DWA_main_1 ${catkin_LIBRARIES})
+#  install(TARGETS DWA_main_1  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
 # add_executable(DWA_main  src/DWA_main.cpp  src/DWA.cpp src/KinematicModel.cpp )
 #add_executable(main_1  src/main_1.cpp  src/KinematicModel.cpp)
 ## Specify libraries to link a library or executable target against
-#  target_link_libraries(robot_room ${catkin_LIBRARIES})
+
 #  target_link_libraries(robot_pub ${catkin_LIBRARIES})
 #  target_link_libraries(robot1_sub ${catkin_LIBRARIES})
 #  target_link_libraries(robot1_pub ${catkin_LIBRARIES})

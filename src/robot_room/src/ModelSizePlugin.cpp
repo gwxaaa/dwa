@@ -1,90 +1,100 @@
 
-
 #include "ModelSizePlugin.h"
-#include "ignition/math.hh"
-namespace gazebo
-{
+namespace gazebo {
 
-    void ModelSizePlugin::Load(const gazebo::physics::ModelStatePtr _modelstate, sdf::ElementPtr _sdf)
+    void ModelSizePlugin::Load(const gazebo::physics::ModelPtr _model, sdf::ElementPtr _sdf)
     {
-        // 获取模型指针并检查
-        model_ = modelstate;
-        if (!model_)
-        {
-            gzerr << "Invalid model pointer\n";
+        this->_model = _model;
+
+        if (!_model) {
+            gzerr << "无效的模型指针\n";
             return;
         }
 
-        // 获取模型名称
-        std::string modelName = model_->GetName();
+        ignition::math::Pose3d modelPose = _model->WorldPose();
+        modelPosition = modelPose.Pos();
+        modelOrientation = modelPose.Rot();
+        modelYaw = modelOrientation.Yaw();
 
-        // 获取模型的位置
-        ignition::math::Pose3d modelPose = model_->WorldPose();
-        ignition::math::Vector3d modelPosition = modelPose.Pos();
-        gzmsg << "Model: " << modelName << ", Position: " << modelPosition << "\n";
-
-        // 获取模型的朝向（四元数形式）
-        ignition::math::Quaterniond modelOrientation = modelPose.Rot();
-        gzmsg << "Model Orientation (Quaternion): " << modelOrientation << "\n";
-
-        // 获取模型的尺寸信息
-        physics::CollisionPtr collision = model_->GetLink()->GetCollision();
-        if (collision)
-        {
-            ignition::math::Vector3d size = collision->GetSize();
-            gzmsg << "Model Size (Length, Width, Height): " << size << "\n";
-        }
-        else
-        {
-            gzerr << "Failed to retrieve model's collision information\n";
-        }
+        ignition::math::AxisAlignedBox bbox = _model->CollisionBoundingBox();
+        modelWidth = bbox.Size().X();
+        modelDepth = bbox.Size().Y();
+        modelHeight = bbox.Size().Z();
+        // std::cout << "宽度：" << modelWidth << " 深度：" << modelDepth << " 高度：" << modelHeight << std::endl;
+        // std::cout << "位置：" << modelPosition << std::endl;
+        // std::cout << "四元数：" << modelOrientation << std::endl;
+        // std::cout << "Yaw 信息：" << modelYaw << std::endl;
+    }
+        double ModelSizePlugin::GetModelWidth() const
+    {
+        return modelWidth;
     }
 
-    GZ_REGISTER_MODEL_PLUGIN(ModelSizePlugin)
+    double ModelSizePlugin::GetModelDepth() const
+    {
+        return modelDepth;
+    }
 
-} // namespace gazebo
+    double ModelSizePlugin::GetModelHeight() const
+    {
+        return modelHeight;
+    }
 
+    ignition::math::Vector3d ModelSizePlugin::GetModelPosition() const
+    {
+        return modelPosition;
+    }
+
+    ignition::math::Quaterniond ModelSizePlugin::GetModelOrientation() const
+    {
+        return modelOrientation;
+    }
+
+    double ModelSizePlugin::GetModelYaw() const
+    {
+        return modelYaw;
+    }
+}
+// //#include <gazebo/gazebo.hh>
+// #include <gazebo/physics/physics.hh>
+// #include "gazebo/physics/BoxShape.hh"
 // #include "ModelSizePlugin.h"
+// #include "ignition/math.hh"
+// namespace gazebo
+// {
 
-// namespace gazebo {
-
-// void ModelSizePlugin::Load(physics::ModelState _model) {
-//     // 获取模型指针
-//     this->model = _model;
-
-//     // 打印模型名称
-//     std::string modelName = this->model->GetName();
-//     std::cout << "Model name: " << modelName << std::endl;
-
-//     // 获取模型的所有碰撞体
-//     physics::Link_V links = this->model->GetLinks();
-//     for (const auto &link : links) {
-//         physics::Collision_V collisions = link->GetCollisions();
-//         for (const auto &collision : collisions) {
-//             // 获取碰撞体几何信息
-//             physics::Collision::GeometryPtr geom = collision->GetShape();
-//             if (geom != nullptr) {
-//                 // 获取碰撞体的尺寸信息
-//                 if (geom->HasType(physics::Collision::CYLINDER_SHAPE)) {
-//                     auto cylinderGeom = std::dynamic_pointer_cast<physics::CylinderShape>(geom);
-//                     if (cylinderGeom) {
-//                         double radius = cylinderGeom->GetRadius();
-//                         double length = cylinderGeom->GetLength();
-//                         std::cout << "Cylinder - Radius: " << radius << ", Length: " << length << std::endl;
-//                     }
-//                 } else if (geom->HasType(physics::Collision::BOX_SHAPE)) {
-//                     auto boxGeom = std::dynamic_pointer_cast<physics::BoxShape>(geom);
-//                     if (boxGeom) {
-//                         ignition::math::Vector3d size = boxGeom->GetSize();
-//                         std::cout << "Box - SizeX: " << size.X() << ", SizeY: " << size.Y() << ", SizeZ: " << size.Z() << std::endl;
-//                     }
-//                 } else {
-//                     // 处理其他类型的碰撞体（根据需要添加其他类型的几何形状）
-//                 }
-//             }
+//     void ModelSizePlugin::Load(const gazebo::physics::ModelPtr _model, sdf::ElementPtr _sdf)
+//     {
+//         // 获取模型指针并检查
+//         this->_model = _model;
+//         if (!_model)
+//         {
+//             gzerr << "Invalid model pointer\n";
+//             return;
 //         }
-//     }
-// }
 
-// GZ_REGISTER_MODEL_PLUGIN(ModelSizePlugin)
-// }  // namespace gazebo
+//         // 获取模型名称
+//         std::string modelName = _model->GetName();
+
+//         // 获取模型的位置
+//         ignition::math::Pose3d modelPose = _model->WorldPose();
+//         ignition::math::Vector3d modelPosition = modelPose.Pos();
+//         gzmsg << "Model: " << modelName << ", Position: " << modelPosition << "\n";
+
+//         // 获取模型的朝向（四元数形式）
+//         ignition::math::Quaterniond modelOrientation = modelPose.Rot();
+//         gzmsg << "Model Orientation (Quaternion): " << modelOrientation << "\n";
+
+//         // 获取模型尺寸信息
+//         ignition::math::AxisAlignedBox bbox = _model->CollisionBoundingBox();
+//         double modelWidth = bbox.Size().X();
+//         double modelDepth = bbox.Size().Y();
+//         double modelHeight = bbox.Size().Z();
+//         // 获取模型的尺寸信息
+//         std::cout << "Position: x=" << modelPosition.X() << " y=" << modelPosition.Y() << " z=" << modelPosition.Z() << std::endl;
+//         std::cout << "Orientation: x=" << modelOrientation.X() << " y=" << modelOrientation.Y() << " z=" << modelOrientation.Z() << " w=" << modelOrientation.W() << std::endl;
+//         // 输出模型尺寸信息
+//         std::cout << "Width: " << modelWidth << " Depth: " << modelDepth << " Height: " << modelHeight << std::endl;
+//     } // namespace gazebo
+// }
+// GZ_REGISTER_MODEL_PLUGIN(gazebo::ModelSizePlugin)

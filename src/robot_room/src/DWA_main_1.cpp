@@ -93,7 +93,7 @@ int main(int argc, char **argv)
       ros::spinOnce();
       continue;
     }
-    ROS_INFO("Specific Model Name: %s", specific_model_name.c_str());
+    
     // 创建DWAPlanner对象
     DWAPlanner planner(target_pose, obstacle_poses, max_linear_speed, max_angular_speed, time, num, current_pose);
     // 查找最佳速度，final_pose，最佳分数
