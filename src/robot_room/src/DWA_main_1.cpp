@@ -9,11 +9,17 @@
 #include <geometry_msgs/PoseStamped.h>
 #include "nav_msgs/Path.h"
 // 定义全局变量来存储模型状态信息
+struct Obstacle
+{
+  std::string name;
+  geometry_msgs::Pose pose;
+};
+std::vector<Obstacle> obstacles;
 gazebo_msgs::ModelStates model_states;
 geometry_msgs::Pose robot_initial_pose;
 geometry_msgs::Pose current_pose;
 geometry_msgs::Pose target_pose; // 目标位置
-std::vector<geometry_msgs::Pose> obstacle_poses;
+// std::vector<geometry_msgs::Pose> obstacles;
 bool received_model_states = false;
 std::string specific_model_name; // 特定模型名称
 geometry_msgs::Pose new_pose;
@@ -26,7 +32,7 @@ void specificModelStateCallback(const gazebo_msgs::ModelStates::ConstPtr &msg)
 {
   int specific_model_index = -1;
   // 清空障碍物信息
-  obstacle_poses.clear();
+  obstacles.clear();
   // 遍历接收到的模型状态消息中的所有模型
   for (size_t i = 0; i < msg->name.size(); i++)
   {
@@ -38,7 +44,10 @@ void specificModelStateCallback(const gazebo_msgs::ModelStates::ConstPtr &msg)
 
     {
       // 如果不是特定模型，将其视为障碍物，将其位姿信息添加到障碍物信息中
-      obstacle_poses.push_back(msg->pose[i]);
+      Obstacle obstacle;
+      obstacle.name = msg->name[i];
+      obstacle.pose = msg->pose[i];
+      obstacles.push_back(obstacle);
     }
   }
 
@@ -93,10 +102,20 @@ int main(int argc, char **argv)
       ros::spinOnce();
       continue;
     }
-    
-    // 创建DWAPlanner对象
-    DWAPlanner planner(target_pose, obstacle_poses, max_linear_speed, max_angular_speed, time, num, current_pose);
-    // 查找最佳速度，final_pose，最佳分数
+
+    std::vector<DWAPlanner::Obstacle> converted_obstacles;
+
+    // 将 std::vector<Obstacle> 类型的障碍物转换为 std::vector<DWAPlanner::Obstacle> 类型
+    for (const auto &obstacle : obstacles)
+    {
+      DWAPlanner::Obstacle converted;
+      converted.name = obstacle.name;
+      converted.pose = obstacle.pose;
+      converted_obstacles.push_back(converted);
+    }
+
+    // 使用转换后的障碍物实例化 DWAPlanner 对象
+    DWAPlanner planner(target_pose, converted_obstacles, max_linear_speed, max_angular_speed, time, num, current_pose);
     const geometry_msgs::Twist &best_twist = planner.FindBestTwist(current_pose);
 
     // 使用运动学模型更新机器人的位姿
@@ -136,22 +155,14 @@ int main(int argc, char **argv)
       path_msg.poses.push_back(pose); // 将路径点添加到路径消息中
     }
     path_pub_.publish(path_msg); // 发布路径消息
-    // 输出最佳速度、分数、final_pose和迭代序号
-    // std::cout << " - Best Twist: linear.x = " << twist.linear.x << ", angular.z = " << twist.angular.z
-    //           << std::endl;
-    //  std::cout << " - Best Score: " << best_score << std::endl;
-    // std::cout << " - Best Final Pose: x = " << final_pose.position.x << ", y = " << final_pose.position.y <<
-    // std::endl;
-    // ROS_INFO(" - Best Twist: linear.x = %f, angular.z = %f", twist.linear.x, twist.angular.z);
-    // ROS_INFO(" - Best Score: %f", best_score);
-    // ROS_INFO(" - Best Final Pose: x = %f, y = %f", final_pose.position.x, final_pose.position.y);
+    ROS_INFO(" - Best Score: %f", best_score);
     current_pose = newpose; // 更新位姿
     // 检查是否到达目标点
     double distance_to_target = sqrt(pow(target_pose.position.x - current_pose.position.x, 2) +
                                      pow(target_pose.position.y - current_pose.position.y, 2));
     if (distance_to_target < 0.1)
     {
-      ROS_INFO("Reached the goal");
+    //  ROS_INFO("Reached the goal");
     }
     ros::spinOnce();
     loop_rate.sleep();
