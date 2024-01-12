@@ -15,7 +15,7 @@ Model::Model() : received(false)
 void Model::modelStatesCallback(const boost::shared_ptr<const gazebo::msgs::Model> &msg)
 {
     // void Model::modelStatesCallback(const gazebo::msgs::ModelPtr& msg) {
-      //  std::cout<<"111111111111111111111111111111111111111111"<<std::endl;
+      //  
     for (int i = 0; i < msg->model_size(); ++i)
     {
         const gazebo::msgs::Model &currentModel = msg->model(i);

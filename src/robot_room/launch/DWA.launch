@@ -6,7 +6,7 @@
         <param name="max_angular_speed" type="double" value="4.0" />
         <param name="max_linear_speed" type="double" value="4.0" />
         <param name="target_x" type="double" value="0.0" />
-        <param name="target_y" type="double" value="0.0" />
+        <param name="target_y" type="double" value="10.0" />
         <!-- <param name="target_orientation_z" type="double" value="2" />
         <param name="target_orientation_w" type="double" value="1" /> -->
     </node>

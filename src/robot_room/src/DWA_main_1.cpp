@@ -155,7 +155,7 @@ int main(int argc, char **argv)
       path_msg.poses.push_back(pose); // 将路径点添加到路径消息中
     }
     path_pub_.publish(path_msg); // 发布路径消息
-    ROS_INFO(" - Best Score: %f", best_score);
+    ////ROS_INFO(" - Best Score: %f", best_score);
     current_pose = newpose; // 更新位姿
     // 检查是否到达目标点
     double distance_to_target = sqrt(pow(target_pose.position.x - current_pose.position.x, 2) +
